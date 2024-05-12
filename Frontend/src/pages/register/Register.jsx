@@ -22,7 +22,7 @@ const Register = () => {
     const [passwordError, setPasswordError] = useState('')
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
 
-    // Make a each function for changing the value
+    // Make a each function for changing the value.
     // onchange on each input
     const handleFirstname = (e) => {
         setFirstName(e.target.value);
