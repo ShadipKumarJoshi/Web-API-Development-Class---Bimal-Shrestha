@@ -5,7 +5,7 @@ import { toast } from 'react-toastify'
 
 const Register = () => {
 
-    // Step 2: Input(Type) - Make a state
+    // Step 2: Input(Type) - Make a state.
     // logic section of step 2 is before return
 
     //Make a useState for 5 Fields
