@@ -1,0 +1,4 @@
+npm install -g create-react-app
+npx create-react-app app_32a
+npm start (in terminal in vs code)
+extension es7 react in vs code

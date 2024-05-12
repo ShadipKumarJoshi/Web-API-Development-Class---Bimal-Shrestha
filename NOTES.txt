@@ -1,0 +1,21 @@
+
+API: Application Programming Interface
+REST: Representational State Transfer
+JSON: JavaScript Object Notation
+URL: Uniform Resource Locator
+URI: Uniform resource Identifier
+HTTP: Hypertext Transfer Protocol 
+
+
+
+• APIs are mechanisms that enable two software components to communicate with each other using a set of definitions and protocols.
+
+• URL  locates a unique resource on the Internet.
+
+• URI to uniquely locate anything on the Internet.
+
+• A URL is a specific type of URI . A URI is a string of characters that identifies a resource, while a URL is a string that identifies the location of a resource on the internet.
+
+• URL is the subset of URI.
+
+
