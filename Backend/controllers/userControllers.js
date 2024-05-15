@@ -3,6 +3,7 @@
 // which  contains the logic for interacting with the user data in the database.
 const userModel = require('../models/userModel')
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 
 // ####################################################################
 
@@ -190,7 +191,93 @@ const createUser = async (req, res) => {
 //change password
 
 
+
+
+//  Login Function
+const loginUser = async (req, res) => {
+    // res.send("Login API is working!")
+
+    // STEPS
+    // Check incoming data - email , password
+
+    // Validation
+    // Try / catch
+
+
+    // check incoming data -postman-body-raw- json 
+    console.log(req.body)
+
+    // Destructuring
+    const { email, password } = req.body;
+
+    //Validation
+    if (!email || !password) {
+        return res.json({
+            "success": false,
+            "message": " Please enter all fields!"
+        })
+    }
+
+    // Try catch
+    try {
+
+        // Find user (email)
+        // not found (error message)
+        // user found - compare password (bcrypt)
+        // password not valid (error)
+        // token (Generate - with user Data + KEY)
+        // response (token, user data) 
+
+
+        // Find user (email)
+        const user = await userModel.findOne({ email: email })
+        // datas that can be found: firstname, lastname, email, password
+
+        // email not found (error message)
+        if (!user) {
+            return res.json({
+                "success": false,
+                "message": " User doesn't exist!"
+            })
+        }
+
+        // user found - compare password (bcrypt)
+        const isValidPassword = await bcrypt.compare(password, user.password)
+
+
+        // password not valid (error)
+        if (!isValidPassword) {
+            return res.json({
+                "success": false,
+                "message": " {Password is wrong}!"
+            })
+        }
+        // token (Generate - with user Data + KEY)  install package: npm i jsonwebtoken
+        const token = await jwt.sign(
+            {id : user._id}, // token id, mongo db id
+            process.env.JWT_SECRET
+        )
+
+        // response (token, user data) 
+        res.json({
+            "success" : true,
+            "message" : "User Login Successful",
+            "token": token,
+            "userData" : user
+        })
+
+    } catch (error) {
+        console.log(error)
+        return res.json({
+            "success": false,
+            "message": "Internal Server Error!"
+        })
+    }
+}
+
+
 // Exporting the function to another file. This exports the createUser function so that it can be imported and used in other files.
 module.exports = {
-    createUser
+    createUser,
+    loginUser
 }
