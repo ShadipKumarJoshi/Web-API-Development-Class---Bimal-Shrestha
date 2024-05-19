@@ -2,6 +2,12 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 
 const Navbar = () => {
+
+    // change Profile navbar for logged in user
+    // get user from local storage as JSON
+    const user = JSON.parse(localStorage.getItem('user'))
+
+
     return (
         <>
             <div className='container'>
@@ -23,9 +29,36 @@ const Navbar = () => {
 
                             </ul>
                             <form className="d-flex" role="search">
-                                <Link to={'/login'} className="btn btn-primary" type="submit">Login</Link>
+                                {/* <Link to={'/login'} className="btn btn-primary" type="submit">Login</Link>
 
-                                <Link to={'/register'} className="btn btn-success ms-2" type="submit">Register</Link>
+                                <Link to={'/register'} className="btn btn-success ms-2" type="submit">Register</Link> */}
+
+                                {/* dynamic content uses {}  for logged in user UI*/}
+                                {
+                                    // Logined user text insted of login and register button
+                                    // user ? (<p>Logined user</p>)
+                                    // : (<p>Login</p>)
+
+                                    // Dropdown button
+                                    user ? (<>
+                                        <div class="dropdown">
+                                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                                Welcome, {user.firstName}!
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a class="dropdown-item" href="#">Profile</a></li>
+                                                <li><a class="dropdown-item" href="#">Settingsn</a></li>
+                                                <li><a class="dropdown-item" href="#">Logout</a></li>
+                                            </ul>
+                                        </div>
+                                    </>)
+                                        : (<>
+                                            <Link to={'/login'} className="btn btn-primary" type="submit">Login</Link>
+
+                                            <Link to={'/register'} className="btn btn-success ms-2" type="submit">Register</Link>
+                                        </>)
+                                }
+
                             </form>
                         </div>
                     </div>

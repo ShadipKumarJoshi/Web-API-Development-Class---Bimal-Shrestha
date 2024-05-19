@@ -5,14 +5,17 @@ import {
   Routes
 } from "react-router-dom";
 import './App.css';
+import Navbar from "./components/Navbar";
 import Homepage from "./pages/homepage/Homepage";
 import Login from "./pages/login/Login";
 import Register from "./pages/register/Register";
-import Navbar from "./components/Navbar";
 
 // Toast config
 import { ToastContainer } from 'react-toastify';
-  import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
+import AdminDashboard from "./pages/admin/AdminDashboard";
+
+
 
 function App() {
   return (
@@ -23,15 +26,18 @@ function App() {
 
     // <Route path='/register' element={<h1>Register page </h1>} />
     <Router>
-      <Navbar/>
-      <ToastContainer/>
+      <Navbar />
+      <ToastContainer />
       <Routes>
-
+        {/* Initial Routes */}
         <Route path='/' element={<Homepage />} />
 
         <Route path='/register' element={<Register />} />
 
         <Route path='/login' element={<Login />} />
+
+        {/* Admin Routes */}
+        <Route path='/admin/dashboard' element={<AdminDashboard />} />
 
       </Routes>
     </Router>
