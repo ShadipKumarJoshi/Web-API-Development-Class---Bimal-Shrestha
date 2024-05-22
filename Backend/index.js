@@ -62,6 +62,8 @@ app.get('/test', (req, res)=>{
 // Configuring Routes of User
 app.use('/api/user', require('./routes/userRoutes'))
 
+app.use('/api/user', require('./routes/productRoutes'))
+
 //http://localhost:5000/api/user/create
 
 // Starting the server using arrow function ()=>{} // listen in above mentioned port, arrow function => with {}
