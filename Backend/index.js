@@ -62,7 +62,7 @@ app.get('/test', (req, res)=>{
 // Configuring Routes of User
 app.use('/api/user', require('./routes/userRoutes'))
 
-app.use('/api/user', require('./routes/productRoutes'))
+app.use('/api/product', require('./routes/productRoutes'))
 
 //http://localhost:5000/api/user/create
 

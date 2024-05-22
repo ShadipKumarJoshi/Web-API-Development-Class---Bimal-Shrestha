@@ -17,11 +17,11 @@ const AdminDashboard = () => {
     setProductImage(file) //for backend
     setPreviewImage(URL.createObjectURL(file)) // for temporary preview
 
-  
+
   }
 
   // handle submit
-  const handleSubmit = (e)=> {
+  const handleSubmit = (e) => {
     e.preventDefault()
     console.log(
       productName,
@@ -96,7 +96,7 @@ const AdminDashboard = () => {
           </div>
         </div>
         <table className="table mt-2">
-          <thread className="table-dark">
+          <thead className="table-dark">
             <tr>
               <th>Product Image</th>
               <th>Product Name</th>
@@ -105,7 +105,7 @@ const AdminDashboard = () => {
               <th>Product Description</th>
               <th>Actions</th>
             </tr>
-          </thread>
+          </thead>
           <tbody>
             <tr>
               <td><img width={'40px'} height={'40px'} src="https://th.bing.com/th/id/OIP.B0FHX_50PYZIN4QKsKykdAHaHa?w=172&h=180&c=7&r=0&o=5&dpr=1.5&pid=1.7" alt="" /></td>
