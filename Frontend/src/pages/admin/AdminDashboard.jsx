@@ -4,21 +4,33 @@ import React, { useState } from 'react'
 const AdminDashboard = () => {
   //  2. use State define
   const [productName, setProductName] = useState('')
-  const [product, setProductPrice] = useState('')
+  const [productPrice, setProductPrice] = useState('')
   const [productCategory, setProductcategory] = useState('')
   const [productDescription, setProducDescription] = useState('')
   // 2.1. useState for image
-  const[productImage,setProductImage]= useState('')
-  const[previewImage, setPreviewImage]=useState('')
+  const [productImage, setProductImage] = useState('')
+  const [previewImage, setPreviewImage] = useState('')
 
   // 3. image upload handler // can use e/event below
-  const handleImage =(event) =>{ // can use e also instead of event
-const file = event.target.files[0]
-setProductImage(file) //for backend
-setPreviewImage(URL.createObjectURL(file)) // for temporary preview
+  const handleImage = (event) => { // can use e also instead of event
+    const file = event.target.files[0]
+    setProductImage(file) //for backend
+    setPreviewImage(URL.createObjectURL(file)) // for temporary preview
+
+  
   }
 
-
+  // handle submit
+  const handleSubmit = (e)=> {
+    e.preventDefault()
+    console.log(
+      productName,
+      productPrice,
+      productCategory,
+      productDescription,
+      productImage
+    )
+  }
 
   return (
     <>
@@ -46,13 +58,13 @@ setPreviewImage(URL.createObjectURL(file)) // for temporary preview
                   {/* Form for product */}
                   <form action="">
                     <label>Product Name</label>
-                    <input onChange={(e)=>setProductName(e.target.value)} type='text' className='form-control' placeholder='Enter product name'></input>
+                    <input onChange={(e) => setProductName(e.target.value)} type='text' className='form-control' placeholder='Enter product name'></input>
 
                     <label className='mt-2'>Product Price</label>
-                    <input onChange={(e)=>setProductPrice(e.target.value)} type='number' className='form-control' placeholder='Enter product price'></input>
+                    <input onChange={(e) => setProductPrice(e.target.value)} type='number' className='form-control' placeholder='Enter product price'></input>
 
                     <label className='mt-2' >Choose Product Category</label>
-                    <select onChange={(e)=>setProductcategory(e.target.value)} className='form-control'>
+                    <select onChange={(e) => setProductcategory(e.target.value)} className='form-control'>
                       <option value='plants'>Plants</option>
                       <option value='electronics'>Electronics</option>
                       <option value='toys'>Toys</option>
@@ -62,22 +74,22 @@ setPreviewImage(URL.createObjectURL(file)) // for temporary preview
 
 
                     <label className='mt-2'>Product Description</label>
-                    <textarea onChange={(e)=>setProducDescription(e.target.value)} className='form-control' ></textarea>
+                    <textarea onChange={(e) => setProducDescription(e.target.value)} className='form-control' ></textarea>
 
                     <label className='mt-2'>Product Image</label>
                     <input onChange={handleImage} type='file' className='form-control' ></input>
 
                     {/* Image Preview for dynamic preview */}
-{
-  previewImage && <img src={previewImage} alt="preview image" className='img-fluid rounded mt-2'/> // img-fluid fits the image
-}
+                    {
+                      previewImage && <img src={previewImage} alt="preview image" className='img-fluid rounded mt-2' /> // img-fluid fits the image
+                    }
 
 
                   </form>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save  </button>
+                  <button onClick={handleSubmit} type="button" class="btn btn-primary">Save  </button>
                 </div>
               </div>
             </div>
