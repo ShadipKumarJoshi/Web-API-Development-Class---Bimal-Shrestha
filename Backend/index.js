@@ -12,20 +12,24 @@ const connectDatabase = require('./database/database');
 const dotenv = require('dotenv');
 const { options } = require('./routes/userRoutes');
 const cors = require('cors');
+const acceptFormData = require('express-fileupload')
 
 // Creating an express app
 const app = express();
 
 // Configure Cors Policy
 const CorsOptions = {
-    origin : true,
-    credentials : true,
-    optionSuccessStatus : 200
+    origin: true,
+    credentials: true,
+    optionSuccessStatus: 200
 }
 app.use(cors(CorsOptions))
 
 // Express Json Config
 app.use(express.json())
+
+// Config form-data
+app.use(acceptFormData())
 
 // dotenv Configuration
 dotenv.config()
@@ -53,7 +57,7 @@ const PORT = process.env.PORT; // port connected through dotenv for security
 // Endpoints : 4 types : POST, GET, PUT, DELETE needs path and function
 // path , function
 
-app.get('/test', (req, res)=>{
+app.get('/test', (req, res) => {
     res.send("Test API is working!...")
 })
 
@@ -67,7 +71,7 @@ app.use('/api/product', require('./routes/productRoutes'))
 //http://localhost:5000/api/user/create
 
 // Starting the server using arrow function ()=>{} // listen in above mentioned port, arrow function => with {}
-app.listen(PORT, ()=>{
+app.listen(PORT, () => {
     // console.log(S'erver is running on PORT 5000!')
     console.log(`Server running on PORT ${PORT}!`) // making dynamic using `` instead of "" // stop by Ctrl+C
     // npm install nodemon to install package which is installed in dependencies in package.json
@@ -75,6 +79,6 @@ app.listen(PORT, ()=>{
     // "start": "nodemon index.js", // run by npm start
     // "test": "echo \"Error: no test specified\" && exit 1" // for restating any edits in index.js 
 
-}) 
+})
 
 

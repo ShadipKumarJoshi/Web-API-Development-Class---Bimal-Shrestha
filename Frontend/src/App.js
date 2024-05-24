@@ -13,7 +13,7 @@ import Register from "./pages/register/Register";
 // Toast config
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminDashboard from "./pages/admin/admin_dashboard/AdminDashboard";
 
 
 
