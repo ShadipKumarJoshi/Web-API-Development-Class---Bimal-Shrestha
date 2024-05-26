@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { createProductApi } from '../../../apis/api'
+import { toast } from 'react-toastify'
 
 // 1. UI 
 const AdminDashboard = () => {
@@ -23,13 +25,30 @@ const AdminDashboard = () => {
   // handle submit
   const handleSubmit = (e) => {
     e.preventDefault()
-    console.log(
-      productName,
-      productPrice,
-      productCategory,
-      productDescription,
-      productImage
-    )
+    // console.log(
+    //   productName,
+    //   productPrice,
+    //   productCategory,
+    //   productDescription,
+    //   productImage
+    // )
+
+    // make a from-data (txt, file)
+    const formData = new FormData()
+    formData.append('productName', productName)
+    formData.append('productPrice', productPrice)
+    formData.append('productCategory', productCategory)
+    formData.append('productDescription', productDescription)
+    formData.append('productImage', productImage)
+
+    // Make a api call
+    createProductApi(formData).then((res)=>{
+      if(res.data.success ===false){
+        toast.error(res.data.message)
+      } else {
+        toast.success(res.data.message)
+      }
+    })
   }
 
   return (
