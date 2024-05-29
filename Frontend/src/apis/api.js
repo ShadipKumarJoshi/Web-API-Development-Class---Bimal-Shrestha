@@ -22,4 +22,7 @@ export const loginUserApi = (data) => Api.post('/api/user/login', data)
 // Create product API
 export const createProductApi = (data) => Api.post('/api/product/create', data)
 
+// Get all products Api
+export const getAllProducts = () => Api.get('/api/product/get_all_products')
+
 // http://localhost:5000/test

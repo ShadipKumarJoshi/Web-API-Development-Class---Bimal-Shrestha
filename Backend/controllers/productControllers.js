@@ -53,7 +53,7 @@ const createProduct = async (req, res) => {
             productImage: imageName // product iumage is imageName that is changed as a unique name
         })
         const product = await newProduct.save() // it takes time to save to database
-        res.status(210).json({
+        res.status(201).json({
             "success": true,
             "message": "Product Created Successfuly!",
             "data": product
@@ -73,6 +73,33 @@ const createProduct = async (req, res) => {
 
 };
 
+
+// Fetch all products
+const getAllProducts = async (req,res) => {
+    // try catch
+    try {
+        const allProducts = await productModel.find({})
+        res.status(201).json({
+            "success": true,
+            "message": "Product Fetched Successfully!",
+            "products": allProducts
+        })
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            "success" :false,
+            "message": "Internal server error!",
+            "error": error
+        })
+        
+    }
+    // Fetch ALL products
+    // Send Response
+
+
+}
+
 module.exports = {
-    createProduct
+    createProduct,
+    getAllProducts
 }
