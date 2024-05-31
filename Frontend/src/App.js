@@ -14,6 +14,7 @@ import Register from "./pages/register/Register";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AdminDashboard from "./pages/admin/admin_dashboard/AdminDashboard";
+import UpdateProduct from "./pages/admin/update_product/UpdateProduct";
 
 
 
@@ -31,13 +32,12 @@ function App() {
       <Routes>
         {/* Initial Routes */}
         <Route path='/' element={<Homepage />} />
-
         <Route path='/register' element={<Register />} />
-
         <Route path='/login' element={<Login />} />
 
         {/* Admin Routes */}
         <Route path='/admin/dashboard' element={<AdminDashboard />} />
+        <Route path='/admin/update/:id' element={<UpdateProduct />} />
 
       </Routes>
     </Router>

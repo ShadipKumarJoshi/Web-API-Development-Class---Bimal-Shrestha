@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { toast } from 'react-toastify'
 import { createProductApi, getAllProducts } from '../../../apis/api'
+import { Link } from 'react-router-dom'
 
 // 1. UI 
 const AdminDashboard = () => {
@@ -189,7 +190,10 @@ const AdminDashboard = () => {
                 <td>{singleProduct.productCategory}</td>
                 <td>{singleProduct.productDescription}</td>
                 <td>
-                  <button className='btn btn-primary'>Edit</button>
+                  {/* <button className='btn btn-primary'>Edit</button> */}
+                  
+                  {/* LINK BUTTON TO RESPECTIVE EDIT PRODUCT */}
+                  <Link to={`/admin/update/${singleProduct._id}`} className='btn btn-primary'>Edit</Link> 
                   <button className='btn btn-danger ms-2' >Delete</button>
                 </td>
               </tr>
@@ -206,4 +210,11 @@ const AdminDashboard = () => {
 
 export default AdminDashboard
 
+
+// EDIT PRODUCT -------------------------------------------------
+//  product is in Admin Dashboard (Table)
+// Make a new route (Admin Edit Product)
+// Fill all the related information of the chose product only.
+// It must be editable( both text , file)
+// make a backend to update product.
 

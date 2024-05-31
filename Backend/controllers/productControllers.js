@@ -99,7 +99,38 @@ const getAllProducts = async (req,res) => {
 
 }
 
+// Fetch single product
+const getSingleProduct = async(req,res) => {
+
+    // get product id of editable product from URL (params) 
+    const productId = req.params.id;
+
+    // Find the product from id
+    try {
+        const product = await productModel.findById(productId)
+        if (!product) {
+            res.status(400).json({
+                "success": false,
+                "message": "No product found!",})
+                
+        }
+        res.status(201).json({
+            "success": true,
+            "message": "Product Fetched Successfully!",
+            "products": product
+        })
+        
+    } catch (error) {
+        res.status(500).json({
+            "success" :false,
+            "message": "Internal server error!",
+            "error": error })
+    }
+
+}
+
 module.exports = {
     createProduct,
-    getAllProducts
+    getAllProducts,
+    getSingleProduct
 }
