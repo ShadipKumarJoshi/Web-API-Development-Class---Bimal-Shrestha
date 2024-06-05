@@ -91,33 +91,36 @@ const AdminDashboard = () => {
         toast.error("Something went wrong!")
       }
 
-    })
+    });
 
-    // handle delete product
+  };
+
+  // handle delete product
 
 
-  }
 
   const handleDelete = (id) => {
-    const confirmDialog = window.confirm("Are you sure you want to delete?")
+    const confirmDialog = window.confirm("Are you sure you want to delete?");
     if (confirmDialog) {
       // calling API
       deleteProduct(id).then((res) => {
         if (res.status === 201) {
-          toast.success(res.data.message)
-          window.location.reload
+          toast.success(res.data.message);
+
+          // reload
+          window.location.reload();
         }
 
       }).catch((error) => {
         if (error.response.status === 500) {
-          toast.error(error.response.data.message)
+          toast.error(error.response.data.message);
         }
 
-      })
+      });
 
     }
 
-  }
+  };
 
   return (
     <>
