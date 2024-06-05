@@ -32,7 +32,7 @@ app.use(express.json())
 app.use(acceptFormData())
 
 // Make a static public folder for image
-app.use(express.static(".public"))
+app.use(express.static("./public"))
 
 // dotenv Configuration
 dotenv.config()

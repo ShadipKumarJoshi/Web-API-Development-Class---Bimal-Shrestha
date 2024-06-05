@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
-import { toast } from 'react-toastify'
-import { createProductApi, getAllProducts } from '../../../apis/api'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify'
+import { createProductApi, deleteProduct, getAllProducts } from '../../../apis/api'
 
 // 1. UI 
 const AdminDashboard = () => {
@@ -16,7 +16,7 @@ const AdminDashboard = () => {
 
       // response : res.data.products (All Products)
       setProducts(res.data.products)
-      
+
 
     }).catch((error) => {
       console.log(error)
@@ -92,6 +92,31 @@ const AdminDashboard = () => {
       }
 
     })
+
+    // handle delete product
+
+
+  }
+
+  const handleDelete = (id) => {
+    const confirmDialog = window.confirm("Are you sure you want to delete?")
+    if (confirmDialog) {
+      // calling API
+      deleteProduct(id).then((res) => {
+        if (res.status === 201) {
+          toast.success(res.data.message)
+          window.location.reload
+        }
+
+      }).catch((error) => {
+        if (error.response.status === 500) {
+          toast.error(error.response.data.message)
+        }
+
+      })
+
+    }
+
   }
 
   return (
@@ -184,19 +209,20 @@ const AdminDashboard = () => {
             {
               products.map((singleProduct) => (
                 <tr>
-                <td><img width={'40px'} height={'40px'} src={`http://localhost:5000/products/${singleProduct.productImage}`} alt="" /></td>
-                <td>{singleProduct.productName}</td>
-                <td>{singleProduct.productPrice}</td>
-                <td>{singleProduct.productCategory}</td>
-                <td>{singleProduct.productDescription}</td>
-                <td>
-                  {/* <button className='btn btn-primary'>Edit</button> */}
-                  
-                  {/* LINK BUTTON TO RESPECTIVE EDIT PRODUCT */}
-                  <Link to={`/admin/update/${singleProduct._id}`} className='btn btn-primary'>Edit</Link> 
-                  <button className='btn btn-danger ms-2' >Delete</button>
-                </td>
-              </tr>
+                  <td><img width={'40px'} height={'40px'} src={`http://localhost:5000/products/${singleProduct.productImage}`} alt="" /></td>
+                  <td>{singleProduct.productName}</td>
+                  <td>{singleProduct.productPrice}</td>
+                  <td>{singleProduct.productCategory}</td>
+                  <td>{singleProduct.productDescription}</td>
+                  <td>
+                    {/* <button className='btn btn-primary'>Edit</button> */}
+
+                    {/* LINK BUTTON TO RESPECTIVE EDIT PRODUCT */}
+                    <Link to={`/admin/update/${singleProduct._id}`} className='btn btn-primary'>Edit</Link>
+                    {/* <button className='btn btn-danger ms-2' >Delete</button> */}
+                    <button onClick={() => handleDelete(singleProduct._id)} className='btn btn-danger ms-2' >Delete</button>
+                  </td>
+                </tr>
               ))
             }
 

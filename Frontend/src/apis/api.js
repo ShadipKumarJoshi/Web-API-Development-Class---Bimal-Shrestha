@@ -25,4 +25,10 @@ export const createProductApi = (data) => Api.post('/api/product/create', data)
 // Get all products Api
 export const getAllProducts = () => Api.get('/api/product/get_all_products')
 
+// get single product  APi {ID is important} / use tilde 
+export const getSingleProduct = (id) => Api.get(`/api/product/get_single_product/${id}`)
+
+// delete single product  APi {ID is important} / use tilde 
+export const deleteProduct = (id) => Api.delete(`/api/product/delete_product/${id}`)
+
 // http://localhost:5000/test

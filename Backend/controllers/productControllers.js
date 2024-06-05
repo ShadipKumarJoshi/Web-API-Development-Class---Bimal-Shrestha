@@ -75,7 +75,7 @@ const createProduct = async (req, res) => {
 
 
 // Fetch all products
-const getAllProducts = async (req,res) => {
+const getAllProducts = async (req, res) => {
     // try catch
     try {
         const allProducts = await productModel.find({})
@@ -87,11 +87,11 @@ const getAllProducts = async (req,res) => {
     } catch (error) {
         console.log(error)
         res.status(500).json({
-            "success" :false,
+            "success": false,
             "message": "Internal server error!",
             "error": error
         })
-        
+
     }
     // Fetch ALL products
     // Send Response
@@ -100,7 +100,7 @@ const getAllProducts = async (req,res) => {
 }
 
 // Fetch single product
-const getSingleProduct = async(req,res) => {
+const getSingleProduct = async (req, res) => {
 
     // get product id of editable product from URL (params) 
     const productId = req.params.id;
@@ -111,26 +111,48 @@ const getSingleProduct = async(req,res) => {
         if (!product) {
             res.status(400).json({
                 "success": false,
-                "message": "No product found!",})
-                
+                "message": "No product found!",
+            })
+
         }
         res.status(201).json({
             "success": true,
             "message": "Product Fetched Successfully!",
             "products": product
         })
-        
+
     } catch (error) {
         res.status(500).json({
-            "success" :false,
+            "success": false,
             "message": "Internal server error!",
-            "error": error })
+            "error": error
+        })
     }
 
+}
+
+// delete prosuct
+const deleteProduct = async (req, res) => {
+    try {
+        await productModel.findByIdAndDelete(req.params.id)
+        res.status(201).json({
+            "success": true,
+            "message": "Product deleted succesfully!",
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            "success": false,
+            "message": "Internal server error!",
+            "error": error
+        })
+    }
 }
 
 module.exports = {
     createProduct,
     getAllProducts,
-    getSingleProduct
+    getSingleProduct,
+    deleteProduct
 }
