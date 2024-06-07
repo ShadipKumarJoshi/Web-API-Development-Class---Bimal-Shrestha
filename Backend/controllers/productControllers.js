@@ -1,5 +1,7 @@
 const path = require('path')
 const productModel = require('../models/productModel')
+const fs = require('fs') // fs= filesystem
+
 const createProduct = async (req, res) => {
     // res.send("Create product API is working...")
 
@@ -150,9 +152,79 @@ const deleteProduct = async (req, res) => {
     }
 }
 
+// Update Product
+// 1. get product id (url)
+// 2. if image :
+// 3. New image should be upoaded
+// 4. Old image should be deleted
+// 5. find product (database) productImage
+// 6. find the image in directory
+// 7. delete the image
+// 8. update the product
+
+const updateProduct = async (req, res) => {
+    try {
+        // if there is image
+        if (req.files && req.files.productImage) {
+            // destructuring 
+            const { productImage } = req.files;
+
+            // upload image to /public/products folder
+            // 1. Generate new unique image name (abc.png) -> (213456-abc.png)
+            const imageName = `${Date.now()}-${productImage.name}`
+
+            // 2. Make an upload path (/path/upload - directory)
+            const imageUploadPath = path.join(__dirname, `../public/products/${imageName}`)    // 2 underscores __directory name, then make a public folder with products
+
+
+            // move to folder
+            await productImage.mv(imageUploadPath)
+
+            // req.params has  (id ), req.body( has updated data - product name, pp, pc, pd), req. files (image)
+            // add new field to req.body (productImage -> namae)
+            req.body.productImage = imageName; // image uploaded and  its generated name
+
+            // if image is uploaded and req.body is assigned ==>delete old image
+            if (req.body.productImage) {
+
+                // Finding existing product
+                const existingProduct = await productModel.findById(req.params.id)
+
+                // Searching in the directory/folder
+                const oldImagePath = path.join(__dirname, `../public/products/${existingProduct.productImage}`)    // 2 underscores __directory name, then make a public folder with products
+
+                // delete old image from filesystem
+                fs.unlinkSync(oldImagePath)
+            }
+
+        }
+
+        // update the data
+        const updatedProduct = await productModel.findByIdAndUpdate(req.params.id, req.body)
+        res.status(201).json({
+            "success": true,
+            "message": "Product updated!",
+            "product": updatedProduct
+
+        })
+
+
+    } catch (error) {
+        console.log(error) 
+            res.status(500).json({
+                "success": false,
+                "message": "Internal server error!",
+                "error": error
+            })
+        }
+    
+
+}
+
 module.exports = {
     createProduct,
     getAllProducts,
     getSingleProduct,
-    deleteProduct
+    deleteProduct,
+    updateProduct
 }

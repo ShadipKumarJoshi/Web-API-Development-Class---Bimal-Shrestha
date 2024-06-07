@@ -31,4 +31,7 @@ export const getSingleProduct = (id) => Api.get(`/api/product/get_single_product
 // delete single product  APi {ID is important} / use tilde 
 export const deleteProduct = (id) => Api.delete(`/api/product/delete_product/${id}`)
 
+// update product
+export const updateProduct = (id,data) => Api.put(`/api/product/update_product/${id}`,data) // form data is also going / update
+
 // http://localhost:5000/test

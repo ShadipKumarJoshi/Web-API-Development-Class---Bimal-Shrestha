@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getSingleProduct } from '../../../apis/api'
+import { toast } from 'react-toastify'
+import { getSingleProduct, updateProduct } from '../../../apis/api'
 
 const UpdateProduct = () => {
     // get id from url
@@ -45,6 +46,36 @@ const UpdateProduct = () => {
         setPreviewNewImage(URL.createObjectURL(file))
     }
 
+    // update product
+    const handleUpdate = (e) => {
+        e.preventDefault()
+
+        // make a form data
+        // make a from-data (txt, file)
+        const formData = new FormData()
+        formData.append('productName', productName)
+        formData.append('productPrice', productPrice)
+        formData.append('productCategory', productCategory)
+        formData.append('productDescription', productDescription)
+        // formData.append('productImage', productNewImage)  // new image
+
+        if (productNewImage) {
+            formData.append('productImage', productNewImage)
+        }
+
+        // Api call
+        updateProduct(id, formData).then((res) => {
+            if (res.status === 201) {
+                toast.success(res.data.message)
+            }
+
+        }).catch((error) => {
+            if (error.response.status === 500) {
+                toast.error(error.response.data.message)
+            }
+        })
+    }
+
 
     return (
         <>
@@ -78,7 +109,7 @@ const UpdateProduct = () => {
                         <label className='mt-2'>Choose product Image</label>
                         <input onChange={handleImage} type="file" className='form-control' />
 
-                        <button className='btn btn-danger w-100 mt-2'>Update Product</button>
+                        <button onClick={handleUpdate} className='btn btn-danger w-100 mt-2'>Update Product</button>
 
 
                     </form>
