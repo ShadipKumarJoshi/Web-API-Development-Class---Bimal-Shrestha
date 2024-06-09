@@ -7,8 +7,18 @@ const Api = axios.create({
     headers: {
         // "Content-Type": "application/json"
         "Content-Type": "multipart/form-data"
+
+        // authorisation here means all can see the admin data
+        // 'authorization'
     }
 })
+
+// make a config for admin authorisation
+const config ={
+    headers: {
+        'authorization' : `Bearer ${localStorage.getItem('token')}`,
+    }
+}
 
 // Test API
 export const testApi = () => Api.get('/test') // same as in backend  /test
@@ -23,10 +33,12 @@ export const loginUserApi = (data) => Api.post('/api/user/login', data)
 export const createProductApi = (data) => Api.post('/api/product/create', data)
 
 // Get all products Api
-export const getAllProducts = () => Api.get('/api/product/get_all_products')
+// export const getAllProducts = () => Api.get('/api/product/get_all_products')
+export const getAllProducts = () => Api.get('/api/product/get_all_products',config)
 
 // get single product  APi {ID is important} / use tilde 
-export const getSingleProduct = (id) => Api.get(`/api/product/get_single_product/${id}`)
+// export const getSingleProduct = (id) => Api.get(`/api/product/get_single_product/${id}`)
+export const getSingleProduct = (id) => Api.get(`/api/product/get_single_product/${id}`, config)
 
 // delete single product  APi {ID is important} / use tilde 
 export const deleteProduct = (id) => Api.delete(`/api/product/delete_product/${id}`)
