@@ -9,7 +9,8 @@ const Navbar = () => {
 
       // Logout function
       const handleLogout = () => {
-        localStorage.removeItem('user'); // Clear user data from localStorage
+        // localStorage.removeItem('user'); // Clear user data from localStorage
+        localStorage.clear()
         // history.push('/login'); // Redirect to login page
         window.location.href = '/login'; 
     };
@@ -54,7 +55,8 @@ const Navbar = () => {
                                             <ul class="dropdown-menu">
                                                 <li><a class="dropdown-item" href="#">Profile</a></li>
                                                 <li><a class="dropdown-item" href="#">Settingsn</a></li>
-                                                <li><a href="logout" onClick={handleLogout}>Logout</a></li>
+                                                {/* <li><a href="logout" onClick={handleLogout}>Logout</a></li> */}
+                                                <li><button onClick={handleLogout} class="dropdown-item" href='#'>Logout</button></li>
                                             </ul>
                                         </div>
                                     </>)

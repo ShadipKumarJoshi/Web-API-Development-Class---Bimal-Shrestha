@@ -15,6 +15,9 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import AdminDashboard from "./pages/admin/admin_dashboard/AdminDashboard";
 import UpdateProduct from "./pages/admin/update_product/UpdateProduct";
+import AdminRoutes from "./protected_routes/AdminRoutes";
+import UserRoutes from "./protected_routes/UserRoutes";
+import Profile from "./pages/profile/Profile";
 
 
 
@@ -36,9 +39,18 @@ function App() {
         <Route path='/login' element={<Login />} />
 
         {/* Admin Routes */}
-        <Route path='/admin/dashboard' element={<AdminDashboard />} />
-        <Route path='/admin/update/:id' element={<UpdateProduct />} />
+        {/* <Route path='/admin/dashboard' element={<AdminDashboard />} />
+        <Route path='/admin/update/:id' element={<UpdateProduct />} /> */}
+        
+        <Route element={<AdminRoutes/>}>
+          <Route path='/admin/dashboard' element={<AdminDashboard />} />
+          <Route path='/admin/update/:id' element={<UpdateProduct />} />
+        </Route>
 
+        {/* User Routes */}
+        <Route element={<UserRoutes/>}>
+        <Route path='/profile' element={<Profile />} />
+        </Route>
       </Routes>
     </Router>
   );

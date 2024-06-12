@@ -254,7 +254,7 @@ const loginUser = async (req, res) => {
         }
         // token (Generate - with user Data + KEY)  install package: npm i jsonwebtoken
         const token = await jwt.sign(
-            {id : user._id}, // token id, mongo db id
+            {id : user._id, isAdmin : user.isAdmin}, // token id, mongo db id
             process.env.JWT_SECRET
         )
 

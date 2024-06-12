@@ -1,0 +1,13 @@
+to add guard in code::::
+BACKEND: route (/get_product)- restrict by GUARD called middleware that check token in refrerence to jwt_secretkey - FUnction ( controller)
+FRINDEND: Headers in config.. to use when necessary
+
+....................................................
+
+
+ADMIN and user route defferentiation/ restriction in (frontend)
+BACKEND modification for account defferentiation
+... user modal
+--- true for admin
+middleware checks ADMIN 
+

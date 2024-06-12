@@ -41,9 +41,9 @@ export const getAllProducts = () => Api.get('/api/product/get_all_products',conf
 export const getSingleProduct = (id) => Api.get(`/api/product/get_single_product/${id}`, config)
 
 // delete single product  APi {ID is important} / use tilde 
-export const deleteProduct = (id) => Api.delete(`/api/product/delete_product/${id}`)
+export const deleteProduct = (id) => Api.delete(`/api/product/delete_product/${id}`,config)
 
 // update product
-export const updateProduct = (id,data) => Api.put(`/api/product/update_product/${id}`,data) // form data is also going / update
+export const updateProduct = (id,data) => Api.put(`/api/product/update_product/${id}`,data,config) // form data is also going / update
 
 // http://localhost:5000/test
