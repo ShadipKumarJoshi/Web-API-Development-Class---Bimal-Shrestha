@@ -1,19 +1,19 @@
 
-const jwt =require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 
 const authGuard = (req, res, next) => {
-    
-// check incoming data
-console.log(req.headers);
+
+    // check incoming data
+    console.log(req.headers);
 
 
     // 1. get authrisation data from headers
-    const authHeader =req.headers.authorization;
+    const authHeader = req.headers.authorization;
 
     // 2. check or validate
-    if(!authHeader){
+    if (!authHeader) {
         return res.status(400).json({
-            success : false,
+            success: false,
             message: "Auth Header not found!"
         })
     }
@@ -22,9 +22,9 @@ console.log(req.headers);
     const token = authHeader.split(' ')[1]; // index 0 is bearer and index 1 is token
 
     // 4. if token  not found - stop the process / end response
-    if(!token || token === ''){
+    if (!token || token === '') {
         return res.status(400).json({
-            success : false,
+            success: false,
             message: "Token not found!"
         })
     }
@@ -32,34 +32,34 @@ console.log(req.headers);
     // 5. if token found - verify token
 
     try {
-        const decodeUserData =jwt.verify(token, process.env.JWT_SECRET)
-        req.user =decodeUserData
+        const decodeUserData = jwt.verify(token, process.env.JWT_SECRET)
+        req.user = decodeUserData
         next()
     } catch (error) {
         res.status(400).json({
-            success : false,
+            success: false,
             message: "Not Authenticated"
         })
     }
-    }
-    // 6. if token verified - next(function in the route/controller)
-    // 7. if token not verified - stop the process / end response
- 
+}
+// 6. if token verified - next(function in the route/controller)
+// 7. if token not verified - stop the process / end response
+
 // -----------------
 // Admin Guard
- 
+
 // check incoming data
 const adminGuard = (req, res, next) => {
-console.log(req.headers);
+    console.log(req.headers);
 
 
     // 1. get authrisation data from headers
-    const authHeader =req.headers.authorization;
+    const authHeader = req.headers.authorization;
 
     // 2. check or validate
-    if(!authHeader){
+    if (!authHeader) {
         return res.status(400).json({
-            success : false,
+            success: false,
             message: "Auth Header not found!"
         })
     }
@@ -68,9 +68,9 @@ console.log(req.headers);
     const token = authHeader.split(' ')[1]; // index 0 is bearer and index 1 is token
 
     // 4. if token  not found - stop the process / end response
-    if(!token || token === ''){
+    if (!token || token === '') {
         return res.status(400).json({
-            success : false,
+            success: false,
             message: "Token not found!"
         })
     }
@@ -78,23 +78,23 @@ console.log(req.headers);
     // 5. if token found - verify token
 
     try {
-        const decodeUserData =jwt.verify(token, process.env.JWT_SECRET)
-        req.user =decodeUserData;   // id, isAdmin
+        const decodeUserData = jwt.verify(token, process.env.JWT_SECRET)
+        req.user = decodeUserData;   // id, isAdmin
 
-        if(!req.user.isAdmin) {
+        if (!req.user.isAdmin) {
             return res.status(400).json({
-                success : false,
+                success: false,
                 message: " Permission Denied!"
             })
         }
         next();
     } catch (error) {
         return res.status(400).json({
-            success : false,
+            success: false,
             message: "Not Authenticated"
         })
     }
-    }
+}
 
 module.exports = {
     authGuard,
