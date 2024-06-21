@@ -85,3 +85,8 @@ app.listen(PORT, () => {
 })
 
 
+
+// exporting app to use in testing file
+module.exports =app; 
+
+
