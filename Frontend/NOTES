@@ -1,0 +1,38 @@
+PAGINATION
+
+List of products: product 1, product 2, product 3, product 4, product 5
+
+\\ TO BE DISPLAYED
+Page 1 (Homepage): 2 products (product 1, product 2)
+Page 2 (Homepage): 2 products (product 3, product 4)
+Page 3 (Homepage): 2 products (product 5)
+Page 4 (Homepage): 2 products ("No product Available")
+
+\\ Coding
+- Find all the products
+- Find product to be displayed 
+- Limit the product that is shown to the next page
+
+\\ Result per page: 2
+\\ Page no: 1 or 2 or 3 ...
+
+\\ FORMULA 
+Skipping Data = (page no - 1 ) * ResultPerPage
+Limit(ResultPerPage)
+
+\\ if the requested page number is 1:
+(1-1)*2 = 0 :: here 0 means skip 0 products
+Limit ( 2 products) ie Product 1, Product 2
+
+\\ if the requested page number is 2:
+(2-1)*2 = 2 :: here 2 means skip 2 products
+Limit (2 products) ie Product 3, Product 4
+
+\\ if the requested page number is 3:
+(3-1)*2 = 4 :: here 4 means skip 4 products
+Limit (2 products) ie Product 5 only
+
+\\ if the requested page number is 4:
+(4-1)*2 = 6 :: here 6 means skip 6 products
+Limit (2 products) ie NO PRODUCTS
+

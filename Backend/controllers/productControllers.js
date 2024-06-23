@@ -210,14 +210,56 @@ const updateProduct = async (req, res) => {
 
 
     } catch (error) {
-        console.log(error) 
-            res.status(500).json({
-                "success": false,
-                "message": "Internal server error!",
-                "error": error
+        console.log(error)
+        res.status(500).json({
+            "success": false,
+            "message": "Internal server error!",
+            "error": error
+        })
+    }
+
+
+}
+
+// PAGINATION
+
+const paginationProducts = async (req, res) => {
+
+    // page no
+    const pageNo = req.query.page || 1; // default value is 1 
+
+    // Result per page
+    const resultPerPage = 4;
+    try {
+        // Find all products, skip, limit
+        const products = await productModel.find({})
+            .skip((pageNo - 1) * resultPerPage)
+            .limit(resultPerPage)
+
+        // if page 6 is requested, result is 0 if no product
+        if (products.length === 0) {
+            return res.status(400).json({
+                'success': false,
+                'message': "No product Found!"
             })
         }
-    
+
+        // response
+        res.status(201).json({
+            'success': true,
+            'message': "Product Fetched!",
+            'products': products
+        })
+
+    } catch (error) {
+        console.log(error)
+        res.status(500).json({
+            'success': false,
+            'message': "Internal Server Error"
+        })
+    }
+
+
 
 }
 
@@ -226,5 +268,6 @@ module.exports = {
     getAllProducts,
     getSingleProduct,
     deleteProduct,
-    updateProduct
+    updateProduct,
+    paginationProducts
 }

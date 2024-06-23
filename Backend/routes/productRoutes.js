@@ -18,4 +18,7 @@ router.delete('/delete_product/:id',adminGuard, productController.deleteProduct)
 // update product
 router.put('/update_product/:id',adminGuard, productController.updateProduct)
 
+// pagination query params for products
+router.get('/pagination', productController.paginationProducts)
+
 module.exports = router
