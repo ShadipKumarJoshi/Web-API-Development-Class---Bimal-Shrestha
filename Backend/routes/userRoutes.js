@@ -12,6 +12,10 @@ router.post('/create', userController.createUser)
 // login routes
 router.post('/login', userController.loginUser)
 
+// forgot Password
+router.post('/forgot_password', userController.forgotPassword)
+
+
 // Exporting the routes
 module.exports = router
 

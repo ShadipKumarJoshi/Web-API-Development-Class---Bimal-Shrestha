@@ -3,7 +3,8 @@
 // which  contains the logic for interacting with the user data in the database.
 const userModel = require('../models/userModel')
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const sendOtp = require('../service/sendOtp');
 
 // ####################################################################
 
@@ -38,13 +39,13 @@ const createUser = async (req, res) => {
     console.log(req.body); // json is wrriten in raw of body of postman 
 
     //2. Destructure  the incoming data
-    const { firstName, lastName, email, password } = req.body; // data is requested from body
+    const { firstName, lastName, email, password, phone } = req.body; // data is requested from body
 
     //3. Validate the data (check email and password is received/)
     // if empty, stop the process and send res(response)
     // This checks if any of the required fields (first name, last name, email, password) are missing from the request body. 
     // If any field is missing, it sends a JSON response indicating failure and a corresponding error message.
-    if (!firstName || !lastName || !email || !password) {
+    if (!firstName || !lastName || !email || !password || !phone) {
         // res.send("Please enter all fields!")
         // res.status(400).json() //dont use it as it is for proffesional use and can cause lots of errors
         res.json({
@@ -83,8 +84,9 @@ const createUser = async (req, res) => {
             lastName: lastName,
             email: email,
             // password: password
-            password: hashedPassword
+            password: hashedPassword,
             // npm install bcrypt for installing package for password hashing
+            phone: phone
         })
 
         // save to the database
@@ -254,16 +256,16 @@ const loginUser = async (req, res) => {
         }
         // token (Generate - with user Data + KEY)  install package: npm i jsonwebtoken
         const token = await jwt.sign(
-            {id : user._id, isAdmin : user.isAdmin}, // token id, mongo db id
+            { id: user._id, isAdmin: user.isAdmin }, // token id, mongo db id
             process.env.JWT_SECRET
         )
 
         // response (token, user data) 
         res.json({
-            "success" : true,
-            "message" : "User Login Successful",
+            "success": true,
+            "message": "User Login Successful",
             "token": token,
-            "userData" : user
+            "userData": user
         })
 
     } catch (error) {
@@ -275,9 +277,136 @@ const loginUser = async (req, res) => {
     }
 }
 
+// Forgot password by using phone number
+// const forgotPassword = async (req, res) => {
+//     // phone number from body
+//     // finding user if exists by phone number
+//     // generate random 6 digit otp
+//     // set expiry time
+//     // save to database for verification
+//     // send OTP to registered phone number
+
+
+//     // phone number from body  
+//     const { phone } = req.body;
+
+//     if (!phone) {
+//         return res.status(400).json({
+//             'success': false,
+//             'message': "Provide your phone number!"
+//         })
+//     } try {
+
+//         // finding user if exists by phone number
+//         const user = await userModel.findOne({ phone: phone })
+
+//         if (!user) {
+//             return res.status(400).json({
+//                 'success': false,
+//                 'message': "User Not Found!"
+//             })
+//         }
+
+//         // generate random 6 digit otp
+//         const otp = Math.floor(100000 + Math.random() * 900000)
+
+//         // set expiry time
+//         const expiryDate = Date.now() + 360000;
+
+//         // save to database for verification
+//         user.resetPasswordOTP = otp;
+//         user.resetPasswordExpires = expiryDate;
+
+//         //  save/ query to databse
+//         await user.save();
+
+//         // send OTP to registered phone number => first sendOTP.js then send OTP
+//         const isSent = await sendOtp(phone, otp)
+//         if (!isSent) {
+//             return res.status(400).json({
+//                 'success': false,
+//                 'message': "Error Sending OTP Code!"
+//             })
+//         }
+
+//         // if success
+//         res.status(200).json({
+//             'success': true,
+//             'message': "OTP sent successfully!"
+//         })
+
+//     } catch (error) {
+//         console.log(error)
+//         res.status(500).json({
+//             'success': false,
+//             'message': "Server Error!"
+//         })
+//     }
+// }
+
+const forgotPassword = async (req, res) => {
+
+    const { phone } = req.body;
+    if (!phone) {
+        return res.status(400).json({
+            success: false,
+            message: "Please Provide your Phone Number"
+        })
+    }
+    try {
+
+        //finding user 
+        const user = await userModel.findOne({ phone: phone })
+
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: "User Not Found!"
+            })
+        }
+
+        //generating random 6 digit otp
+        const otp = Math.floor(100000 + Math.random() * 900000);
+
+        //generating expiry time for otp
+        const expiryDate = Date.now() + 3600000;
+
+        //save to database for verification
+        user.resetPasswordOTP = otp;
+        user.resetPasswordExpires = expiryDate;
+        await user.save();
+
+
+        //send to registered phone number
+        const isSent = await sendOtp(phone, otp);
+        if (!isSent) {
+            return res.status(400).json({
+                success: false,
+                message: "Error sending OTP code!"
+            })
+        }
+
+        //if success
+        res.status(200).json({
+            success: true,
+            message: "OTP sent successfully!"
+        })
+
+
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message: "Server Error!"
+        })
+
+    }
+}
 
 // Exporting the function to another file. This exports the createUser function so that it can be imported and used in other files.
 module.exports = {
     createUser,
-    loginUser
+    loginUser,
+    forgotPassword
 }

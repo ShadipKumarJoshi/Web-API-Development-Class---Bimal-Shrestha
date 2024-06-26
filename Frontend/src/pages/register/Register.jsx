@@ -14,6 +14,7 @@ const Register = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [phone, setPhone] = useState('')  // added phone for OTP
 
     //UseState for Error Message
     const [firstNameError, setFirstNameError] = useState('')
@@ -21,6 +22,7 @@ const Register = () => {
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
+    const [phoneError, setPhoneError] = useState('')    // added for OTP by phone
 
     // Make a each function for changing the value.
     // onchange on each input
@@ -44,41 +46,52 @@ const Register = () => {
         setConfirmPassword(e.target.value);
     }
 
+    const handlePhone = (e) => {
+        setPhone(e.target.value);
+    }
+
     // Validation
     // var is used as it returns value,, const doesnt return
     var validate = () => {
         var isValid = true;
 
         // Validate the firstname
-        if(firstName.trim() === '') { //trim removes spaces at first and end of string
+        if (firstName.trim() === '') { //trim removes spaces at first and end of string
             setFirstNameError("First name is required!")
             isValid = false
         }
 
-        if(lastName.trim() === '') { //trim removes spaces at first and end of string
+        if (lastName.trim() === '') { //trim removes spaces at first and end of string
             setLastNameError("Last name is required!")
             isValid = false
         }
 
-        if(email.trim() === '') { //trim removes spaces at first and end of string
+        if (email.trim() === '') { //trim removes spaces at first and end of string
             setEmailError("Email is required!")
             isValid = false
         }
 
-        if(password.trim() === '') { //trim removes spaces at first and end of string
+        if (phone.trim() === '') { //trim removes spaces at first and end of string
+            setPhoneError("Phone is required!")
+            isValid = false
+        }
+
+        if (password.trim() === '') { //trim removes spaces at first and end of string
             setPasswordError("Password is required!")
             isValid = false
         }
 
-        if(confirmPassword.trim() === '') { //trim removes spaces at first and end of string
+        if (confirmPassword.trim() === '') { //trim removes spaces at first and end of string
             setConfirmPasswordError("Confirm Password is required!")
             isValid = false
         }
 
-        if(confirmPassword.trim() !== password.trim()) { //trim removes spaces at first and end of string
+        if (confirmPassword.trim() !== password.trim()) { //trim removes spaces at first and end of string
             setConfirmPasswordError("Password and Confirm Password doesn't match!")
             isValid = false
         }
+
+
 
         return isValid; // isValid true/false is returned by this function
 
@@ -91,22 +104,23 @@ const Register = () => {
 
         // Validate
         var isValidated = validate(); // received true or false from above func
-        if(!isValidated) {
+        if (!isValidated) {
             return // return to existing page
 
         }
 
 
         // console.log(firstName, lastName, email, password, confirmPassword)
-        
+
         // Sending request to the api
-        
+
         // making json object for the data of name, email and other datas
         const data = {
-            "firstName" : firstName,     //first firstName is destructured data in backend userController.js 
-            "lastName" : lastName,
-            "email" : email,
-            "password" : password
+            "firstName": firstName,     //first firstName is destructured data in backend userController.js 
+            "lastName": lastName,
+            "email": email,
+            "password": password,
+            "phone": phone,    // added for otp
         }
 
 
@@ -116,13 +130,13 @@ const Register = () => {
             // console.log(res.data) // data json made above
 
             //Received data: success, message 
-            if(res.data.success === false){
+            if (res.data.success === false) {
                 toast.error(res.data.message)
-            } else{
+            } else {
                 toast.success(res.data.message)
             }
 
-        })   
+        })
 
     }
 
@@ -158,6 +172,13 @@ const Register = () => {
 
                     {
                         emailError && <p className='text-danger'>{emailError}</p>
+                    }
+
+                    <label className='mt-2'>Phone: {phone}</label>
+                    <input onChange={handlePhone} type='text' className='form-control' placeholder='Enter your Phone' />
+
+                    {
+                        phoneError && <p className='text-danger'>{phoneError}</p>
                     }
 
 
