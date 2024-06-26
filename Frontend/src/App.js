@@ -19,6 +19,7 @@ import UpdateProduct from "./pages/admin/update_product/UpdateProduct";
 import Profile from "./pages/profile/Profile";
 import AdminRoutes from "./protected_routes/AdminRoutes";
 import UserRoutes from "./protected_routes/UserRoutes";
+import ForgotPassword1 from "./pages/forgot_password/ForgotPassword1";
 
 
 
@@ -54,7 +55,9 @@ function App() {
         <Route element={<UserRoutes />}>
           <Route path='/profile' element={<Profile />} />
         </Route>
-      </Routes>
+
+        <Route path='/forgot_password' element ={<ForgotPassword1 />} />
+        </Routes>
     </Router>
   );
 }
