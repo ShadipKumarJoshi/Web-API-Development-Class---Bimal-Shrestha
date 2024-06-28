@@ -350,7 +350,7 @@ const forgotPassword = async (req, res) => {
     if (!phone) {
         return res.status(400).json({
             success: false,
-            message: "Please Provide your Phone Number"
+            message: "Please Provide your Phone Number!"
         })
     }
     try {
@@ -369,7 +369,7 @@ const forgotPassword = async (req, res) => {
         const otp = Math.floor(100000 + Math.random() * 900000);
 
         //generating expiry time for otp
-        const expiryDate = Date.now() + 3600000;
+        const expiryDate = Date.now() + 360000;
 
         //save to database for verification
         user.resetPasswordOTP = otp;
@@ -378,13 +378,14 @@ const forgotPassword = async (req, res) => {
 
 
         //send to registered phone number
-        // const isSent = await sendOtp(phone, otp);
-        // if (!isSent) {
-        //     return res.status(400).json({
-        //         success: false,
-        //         message: "Error sending OTP code!"
-        //     })
-        // }
+        const isSent = await sendOtp(phone, otp);
+        console.log(isSent)
+        if (!isSent) {
+            return res.status(400).json({
+                success: false,
+                message: "Error sending OTP code!"
+            })
+        }
 
         //if success
         res.status(200).json({
@@ -396,7 +397,7 @@ const forgotPassword = async (req, res) => {
 
     } catch (error) {
         console.log(error)
-        return res.status(500).json({
+        res.status(500).json({
             success: false,
             message: "Server Error!"
         })
@@ -404,9 +405,72 @@ const forgotPassword = async (req, res) => {
     }
 }
 
+//Verify Otp and set new Password
+const verifyOtpAndSetPassword = async (req, res) => {
+    // phone number, otp, new password = get data
+    // find user by phone number
+    // check otp and expiry time
+    // update password
+    // save to database
+    // send success response
+
+    // get data
+    const { phone, otp, newPassword } = req.body;
+    if (!phone || !otp || !newPassword) {
+        return res.status(400).json({
+            success: false,
+            message: "Please provide all fields!"
+        })
+    }
+    try {
+        const user = await userModel.findOne({ phone: phone })
+
+        // Verify otp
+        if (user.resetPasswordOTP != otp) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid OTP!"
+            })
+        }
+        if (user.resetPasswordExpires < Date.now()) {
+            return res.status(400).json({
+                success: false,
+                message: "OTP Expired!"
+            })
+        }
+
+        // Update password // hash the new password
+        const randomSalt = await bcrypt.genSalt(10)
+        const hashedPassword = await bcrypt.hash(newPassword, randomSalt)
+
+        // save to database
+        user.password = hashedPassword;
+        await user.save();
+
+        // send success response
+        res.status(200).json({
+            success: true,
+            message: "OTP Verified and Password updated successfully!"
+        })
+
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({
+            success: false,
+            message: "Server Error!"
+        })
+    }
+
+}
+
+
+
+
+
 // Exporting the function to another file. This exports the createUser function so that it can be imported and used in other files.
 module.exports = {
     createUser,
     loginUser,
-    forgotPassword
+    forgotPassword,
+    verifyOtpAndSetPassword
 }

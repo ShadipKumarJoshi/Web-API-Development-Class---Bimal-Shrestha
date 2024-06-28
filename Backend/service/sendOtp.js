@@ -20,9 +20,9 @@ const sendOtp = async (phone, otp) => {
 
     try {
         const res = await axios.post(url, payload)
-        if (res.staus === 200) {
-            isSent = true;
-        }
+        // if (res.staus === 200) {
+        isSent = true;
+
 
     } catch (error) {
         console.log('Error Sending OTP', error.message)

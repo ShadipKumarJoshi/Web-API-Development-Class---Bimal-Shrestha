@@ -35,6 +35,9 @@ export const createProductApi = (data) => Api.post('/api/product/create', data)
 // Forgot Password API
 export const forgotPasswordApi = (data) => Api.post('/api/user/forgot_password', data)
 
+// Verify Otp and set new password API
+export const verifyOtpApi = (data) => Api.post('/api/user/verify_otp', data)
+
 // Get all products Api
 // export const getAllProducts = () => Api.get('/api/product/get_all_products')
 export const getAllProducts = () => Api.get('/api/product/get_all_products',config)
