@@ -27,23 +27,18 @@ const userSchema = new mongoose.Schema({
 
     phone: {
         type: Number,
-        required: true 
-    },
-
-    phone: {
-        type: Number,
         required: true,
-        unique: true 
+        unique: true
     },
 
     resetPasswordOTP: {
         type: Number,
-        default: null 
+        default: null
     },
 
     resetPasswordExpires: {
         type: Date,
-        default: null 
+        default: null
     },
 
 })

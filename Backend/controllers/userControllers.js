@@ -378,13 +378,13 @@ const forgotPassword = async (req, res) => {
 
 
         //send to registered phone number
-        const isSent = await sendOtp(phone, otp);
-        if (!isSent) {
-            return res.status(400).json({
-                success: false,
-                message: "Error sending OTP code!"
-            })
-        }
+        // const isSent = await sendOtp(phone, otp);
+        // if (!isSent) {
+        //     return res.status(400).json({
+        //         success: false,
+        //         message: "Error sending OTP code!"
+        //     })
+        // }
 
         //if success
         res.status(200).json({
