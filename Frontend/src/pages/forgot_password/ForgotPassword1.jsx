@@ -51,6 +51,20 @@ const handleSendOtp = (e) => {
             </span>
 
             <button disabled={isSent} onClick={handleSendOtp} className='btn btn-dark mt-2 w-100'>Send OTP</button>
+
+            {
+            isSent && <>
+            <hr/>
+            {/* win + ;   for emoji */}
+            <p> OTP has been sent to {phone}✅</p>
+            <input onChange={(e) =>setOtp(e.target.value)} type ='number' className='form-control' placeholder='Enter your OTP'/>
+            {/* <input onChange={(e) =>setNewPassword(e.target.value)} type ='password' className='form-control mt-2' placeholder='Enter your new password'/> */}
+            <input onChange={(e) =>setNewPassword(e.target.value)} type ='text' className='form-control mt-2' placeholder='Enter your new password'/>
+            <button className='btn btn-primary mt-2 w-100'>Verify OTP & Set Password</button>
+
+            </>
+            }
+            
         </form>
         
     </div>
